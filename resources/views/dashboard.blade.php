@@ -8,8 +8,27 @@
     <div class="py-12">
         <!-- This example requires Tailwind CSS v2.0+ -->
         <div class="max-w-6xl flex flex-col mx-auto">
+            @if (session('success') && session('message'))
+                <!-- Alert Success -->
+                <div
+                    class="bg-green-200 px-6 py-4 mx-2 my-4 rounded-md text-lg flex items-center mx-auto w-3/4 xl:w-2/4">
+                    <svg viewBox="0 0 24 24" class="text-green-600 w-5 h-5 sm:w-5 sm:h-5 mr-3">
+                        <path fill="currentColor"
+                            d="M12,0A12,12,0,1,0,24,12,12.014,12.014,0,0,0,12,0Zm6.927,8.2-6.845,9.289a1.011,1.011,0,0,1-1.43.188L5.764,13.769a1,1,0,1,1,1.25-1.562l4.076,3.261,6.227-8.451A1,1,0,1,1,18.927,8.2Z">
+                        </path>
+                    </svg>
+                    <span class="text-green-800"> {{ session('message') }} </span>
+                </div>
+                <!-- End Alert Success -->
+
+            @endif
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                    <div class="mb-5">
+                        <a class="p-2 bg-green-500 rounded text-gray-100 hover:bg-green-700"
+                            href="{{ route('companies.create') }}">Create
+                            new company</a>
+                    </div>
                     <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
@@ -45,7 +64,8 @@
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="flex items-center">
                                                 <div class="flex-shrink-0 h-10 w-10">
-                                                    <img class="h-10 w-10" src="{{ asset('images/logo.jpeg') }}"
+                                                    <img class="h-10 w-10"
+                                                        src="{{ $company->logo ?? asset('images/logo.jpeg') }}"
                                                         alt="">
                                                 </div>
                                             </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreCompanyRequest;
 
 class CompanyController extends Controller
 {
@@ -14,7 +15,10 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::withCount('employees')->paginate(10);
+        $companies = Company::latest()
+        ->withCount('employees')
+        ->paginate(10);
+
         return view('dashboard', compact('companies'));
     }
 
@@ -25,7 +29,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        //
+        return view('companies.create');
     }
 
     /**
@@ -34,9 +38,31 @@ class CompanyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCompanyRequest $request)
     {
-        //
+        
+
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'website' => $request->website,
+        ];
+
+        if($request->hasFile('logo'))
+        {
+            $logoPath = $request->file('logo')
+            ->store('logos', 'public');
+            $data['logo'] = $logoPath;
+        }
+
+        Company::create($data);
+
+        return redirect()
+        ->route('companies.index')
+        ->with([
+            'success' => true,
+            'message' => 'Company created succesfully.'
+        ]);
     }
 
     /**
