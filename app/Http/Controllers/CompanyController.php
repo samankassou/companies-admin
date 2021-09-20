@@ -14,7 +14,8 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $companies = Company::withCount('employees')->paginate(10);
+        return view('dashboard', compact('companies'));
     }
 
     /**
