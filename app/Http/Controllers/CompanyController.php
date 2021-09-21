@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreCompanyRequest;
+use App\Http\Requests\UpdateCompanyRequest;
 
 class CompanyController extends Controller
 {
@@ -84,7 +86,7 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        //
+        return view('companies.edit', compact('company'));
     }
 
     /**
@@ -94,9 +96,38 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Company $company)
+    public function update(UpdateCompanyRequest $request, Company $company)
     {
-        //
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'website' => $request->website,
+        ];
+
+        // if the user uploaded a new logo
+        if($request->hasFile('logo'))
+        {
+            // if the company already has a logo
+            if($company->logo)
+            {
+                // delete the old logo
+                Storage::disk('public')->delete($company->logo);
+            }
+            
+            // save the new logo
+            $logoPath = $request->file('logo')
+            ->store('logos', 'public');
+            $data['logo'] = $logoPath;
+        }
+
+        $company->update($data);
+
+        return redirect()
+        ->route('companies.index')
+        ->with([
+            'success' => true,
+            'message' => 'Company updated succesfully.'
+        ]);
     }
 
     /**
