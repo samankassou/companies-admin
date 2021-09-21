@@ -72,7 +72,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        //
+        return view('employees.show', compact('employee'));
     }
 
     /**
@@ -83,7 +83,8 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
-        //
+        $companies = Company::all(['id', 'name']);
+        return view('employees.edit', compact('employee', 'companies'));
     }
 
     /**
@@ -95,7 +96,26 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, Employee $employee)
     {
-        //
+        $request->validate([
+            'firstname' => 'required',
+            'lastname'  => 'required',
+            'email'     => 'nullable|email',
+            'company'   => 'nullable|exists:companies,id',
+        ]);
+        $employee->update([
+            'firstname'  => $request->firstname,
+            'lastname'   => $request->lastname,
+            'email'      => $request->email,
+            'phone'      => $request->phone,
+            'company_id' => $request->company,
+        ]);
+
+        return redirect()
+        ->route('employees.index')
+        ->with([
+            'success' => true,
+            'message' => 'Employee updated succesfully.'
+        ]);
     }
 
     /**
@@ -106,6 +126,11 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
-        //
+        $employee->delete();
+        return back()
+        ->with([
+            'success' => true,
+            'message' => 'Employee deleted succesfully.'
+        ]);
     }
 }
