@@ -1,12 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Companies') }}
+            {{ __('Employees') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
-        <!-- This example requires Tailwind CSS v2.0+ -->
         <div class="max-w-6xl flex flex-col mx-auto">
             @if (session('success') && session('message'))
                 <!-- Alert Success -->
@@ -25,8 +24,8 @@
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     <div class="mb-5">
                         <a class="p-2 bg-green-500 rounded text-gray-100 hover:bg-green-700"
-                            href="{{ route('companies.create') }}">Create
-                            new company</a>
+                            href="{{ route('employees.create') }}">Create
+                            new employee</a>
                     </div>
                     <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                         <table class="min-w-full divide-y divide-gray-200">
@@ -34,11 +33,11 @@
                                 <tr>
                                     <th scope="col"
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Logo
+                                        First name
                                     </th>
                                     <th scope="col"
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Name
+                                        Last name
                                     </th>
                                     <th scope="col"
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -46,11 +45,11 @@
                                     </th>
                                     <th scope="col"
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Website
+                                        Phone
                                     </th>
                                     <th scope="col"
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Employees
+                                        Company
                                     </th>
                                     <th scope="col" class="relative px-6 py-3">
                                         <span class="sr-only">Actions</span>
@@ -58,45 +57,40 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                @forelse ($companies as $company)
+                                @forelse ($employees as $employee)
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <div class="flex-shrink-0 h-10 w-10">
-                                                    <img class="h-10 w-10"
-                                                        src="{{ $company->logo ?? asset('images/logo.jpeg') }}"
-                                                        alt="">
-                                                </div>
+                                            <div class="text-sm text-gray-900">
+                                                {{ $employee->firstname }}
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-900">
-                                                {{ $company->name }}
+                                                {{ $employee->lastname }}
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-900">
-                                                {{ $company->email }}
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm underline text-indigo-900">
-                                                <a target="_blank"
-                                                    href="{{ $company->website }}">{{ $company->website }}</a>
+                                                {{ $employee->email }}
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-900">
-                                                {{ $company->employees_count }}
+                                                {{ $employee->phone }}
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">
+                                                {{ optional($employee->company)->name }}
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <a href="{{ route('companies.show', $company) }}"
+                                            <a href="{{ route('employees.show', $employee) }}"
                                                 class="text-green-600 hover:text-green-900">Show</a>
-                                            <a href="{{ route('companies.edit', $company) }}"
+                                            <a href="{{ route('employees.edit', $employee) }}"
                                                 class="text-indigo-600 hover:text-indigo-900">Edit</a>
                                             <form onsubmit="return confirm('Are you sure?')" class="inline"
-                                                action="{{ route('companies.destroy', $company) }}" method="POST">
+                                                action="{{ route('employees.destroy', $employee) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button href="#" class="text-red-600 hover:text-red-900">Delete</button>
@@ -116,7 +110,7 @@
                             </tbody>
                         </table>
                         <div class="my-2 px-2">
-                            {{ $companies->links() }}
+                            {{ $employees->links() }}
                         </div>
                     </div>
                 </div>

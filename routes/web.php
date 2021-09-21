@@ -20,6 +20,11 @@ Route::get('/', function () {
 Route::get('/dashboard', 'CompanyController@index')
 ->middleware(['auth'])
 ->name('dashboard');
-Route::resource('companies', 'CompanyController');
+
+Route::group(['middleware' => 'auth'], function(){
+    Route::resource('companies', 'CompanyController');
+    Route::resource('employees', 'EmployeeController');
+});
+
 
 require __DIR__.'/auth.php';
