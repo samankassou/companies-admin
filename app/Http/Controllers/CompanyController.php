@@ -138,6 +138,17 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        //
+         // if the company has a logo
+        if($company->logo)
+        {
+            // delete the file
+            Storage::disk('public')->delete($company->logo);
+        }
+        $company->delete();
+        return back()
+        ->with([
+            'success' => true,
+            'message' => 'Company deleted succesfully.'
+        ]);
     }
 }

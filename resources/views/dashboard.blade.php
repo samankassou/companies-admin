@@ -96,7 +96,12 @@
                                                 class="text-green-600 hover:text-green-900">Show</a>
                                             <a href="{{ route('companies.edit', $company) }}"
                                                 class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                                            <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
+                                            <form onsubmit="return confirm('Are you sure?')" class="inline"
+                                                action="{{ route('companies.destroy', $company) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button href="#" class="text-red-600 hover:text-red-900">Delete</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @empty
