@@ -18,9 +18,9 @@
                                 Logo
                             </div>
                             <div class="mt-1 text-sm leading-5 sm:mt-0 sm:w-9/12">
-                                <div class="flex-shrink-0 h-10 w-10">
-                                    <img class="h-10 w-10"
-                                        src="{{ $company->logo ?? asset('images/logo.jpeg') }}" alt="">
+                                <div class="flex-shrink-0 h-20 w-20">
+                                    <img src="{{ asset('storage') . '/' . $company->logo ?? asset('images/logo.jpeg') }}"
+                                        alt="">
                                 </div>
                             </div>
                         </div>
@@ -53,6 +53,18 @@
                             <div class="mt-1 text-sm leading-5 sm:mt-0 sm:w-9/12">
                                 <a target="_blank" class="text-indigo-900 underline"
                                     href="{{ $company->website }}">{{ $company->website }}</a>
+                            </div>
+                        </div>
+
+                        <div class="px-4 py-5 border-b border-gray-200 sm:flex sm:items-center">
+                            <div
+                                class="text-xs leading-4 font-semibold uppercase tracking-wide text-gray-900 sm:w-3/12">
+                                Number of employees
+                            </div>
+                            <div class="mt-1 text-sm leading-5 sm:mt-0 sm:w-9/12">
+                                <div class="mt-1 text-sm leading-5 sm:mt-0 sm:w-9/12">
+                                    {{ $company->employees_count }}
+                                </div>
                             </div>
                         </div>
 

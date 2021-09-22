@@ -75,6 +75,7 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
+        $company->loadCount('employees');
         return view('companies.show', compact('company'));
     }
 

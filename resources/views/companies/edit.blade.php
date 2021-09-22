@@ -45,8 +45,15 @@
                                 </div>
 
                                 <!-- Logo -->
+
                                 <div class="mt-4">
                                     <x-label for="logo" :value="__('Logo')" />
+                                    {{-- Show the logo if it exists --}}
+                                    @if ($company->logo)
+                                        <div class="h-20 w-20">
+                                            <img src="{{ asset('storage') . '/' . $company->logo }}" alt="">
+                                        </div>
+                                    @endif
 
                                     <x-input id="logo" class="block mt-1 w-full" type="file" name="logo"
                                         :value="old('logo')" />
