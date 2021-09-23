@@ -21,7 +21,7 @@ class CompanyController extends Controller
         ->withCount('employees')
         ->paginate(10);
 
-        return view('dashboard', compact('companies'));
+        return view('companies.index', compact('companies'));
     }
 
     /**

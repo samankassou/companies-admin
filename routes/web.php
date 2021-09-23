@@ -17,11 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', 'CompanyController@index')
-->middleware(['auth'])
-->name('dashboard');
-
 Route::group(['middleware' => 'auth'], function(){
+    Route::get('/dashboard', fn()=> view('dashboard'))->name('dashboard');
     Route::resource('companies', 'CompanyController');
     Route::resource('employees', 'EmployeeController');
 });
